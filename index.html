@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - PROGRAM SDP - POST TEST COMPLIANCE APU PPT</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+        :root {
+            --primary-blue: #4A90E2;
+            --light-grey-bg: #f5f7fa;
+            --border-color: #e4e7eb;
+            --text-color-primary: #333;
+            --text-color-secondary: #777;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-grey-bg);
+            margin: 0;
+            color: var(--text-color-primary);
+        }
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .app-header {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+        .app-header .logo {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 20px;
+            font-style: italic;
+        }
+        .app-header .user-info {
+            color: var(--text-color-secondary);
+        }
+
+        .main-content {
+            padding: 20px 30px;
+            flex-grow: 1;
+        }
+
+        .breadcrumbs {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+            margin-bottom: 20px;
+        }
+        .breadcrumbs span {
+            margin: 0 5px;
+        }
+
+        .test-header-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .test-header-meta {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+            margin-bottom: 20px;
+        }
+        
+        .quiz-wrapper {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .quiz-title-bar {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+            position: sticky;
+            top: 0;
+            background-color: #ffffff;
+            z-index: 10;
+        }
+        .quiz-titles h1 {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+        }
+        .quiz-titles h2 {
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .timer-container {
+            text-align: right;
+        }
+        .timer-container #timer {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-color-primary);
+        }
+        .timer-container .timer-label {
+            font-size: 12px;
+            color: var(--text-color-secondary);
+        }
+
+        #questions-container {
+            padding: 10px 20px;
+        }
+        
+        .question-item {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+
+        .question-meta {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+        .question-text {
+            font-size: 16px;
+            margin: 10px 0 20px 0;
+            font-weight: 700;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .option label {
+            position: relative;
+            padding-left: 35px;
+            line-height: 24px;
+        }
+
+        .option label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .option label::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--primary-blue);
+            transform: scale(0);
+            transition: transform 0.1s ease-in-out;
+        }
+
+        .option input[type="radio"]:checked + label::before {
+            border-color: #333;
+            border-width: 3px;
+        }
+        
+        .option input[type="radio"]:checked + label::after {
+            transform: scale(1);
+        }
+        
+        .option input[type="radio"]:checked + label {
+            font-weight: 600;
+        }
+
+        .mark-follow-up {
+            margin-top: 25px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--text-color-secondary);
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .mark-follow-up input[type="checkbox"] {
+            margin-right: 12px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .app-footer {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-container">
+        <header class="app-header">
+            <div>☰</div>
+        </header>
+
+        <main class="main-content">
+            <nav class="breadcrumbs">
+                POST TEST <span>&gt;</span> PROGRAM SDP - POST TEST COMPLIANCE APU PPT
+            </nav>
+
+            <div class="test-header-title">POST TEST COMPLIANCE APU PPT</div>
+            <div class="test-header-meta"></div>
+
+            <div class="quiz-wrapper">
+                <div class="quiz-title-bar">
+                    <div class="quiz-titles">
+                        <h1 id="test-title">Test - PROGRAM SDP - POST TEST COMPLIANCE APU PPT</h1>
+                        <h2 id="test-subtitle"></h2>
+                    </div>
+                    <div class="timer-container">
+                        <div id="timer">30:00</div>
+                        <div class="timer-label">Time remaining</div>
+                    </div>
+                </div>
+
+                <div id="questions-container"></div>
+                
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            PT. Bank Mandiri (Persero) Tbk.
+        </footer>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+    "question": "Prinsip Fungsi Kepatuhan, bersifat :",
+    "options": ["ex-ante", "Internal", "Force Majeur", "ex-post"],
+    "correct": 0
+  },
+  {
+    "question": "Salah satu hirarki ketentuan di Bank Mandiri :",
+    "options": ["Kebijakan", "Undang-undang", "Tutorial", "Peraturan Pengganti"],
+    "correct": 0
+  },
+  {
+    "question": "Laporan yang mencakup hasil pelaksanaan Fungsi kepatuhan di Bank Mandiri :",
+    "options": ["Laporan Pelaksanaan Direktur Kepatuhan", "Laporan Bank Umum", "Laporan Harian Bank Umum", "Laporan Transaksi Keuangan Mencurigakan"],
+    "correct": 0
+  },
+  {
+    "question": "Yang menjadi salah satu dalam pelaksanaan Fungsi Kepatuhan adalah :",
+    "options": ["Regulasi yang selalu berubah", "Perkembangan bisnis yang stabil", "Sumber Daya Manusia yang Patuh", "Fungsi Kepatuhan yang kuat"],
+    "correct": 0
+  },
+  {
+    "question": "Menilai dan mengevaluasi efektivitas, kecukupan, dan kesesuaian kebijakan, sistem, dan prosedur yang dimiliki Bank dengan peraturan perundang-undangan yang berlaku merupakan tugas dari :",
+    "options": ["Compliance dan AML-CFT Group", "Operational Risk Group", "Wholesale Risk Solution", "Legal Group"],
+    "correct": 0
+  },
+  {
+    "question": "Pada saat kondisi apakah terjadinya risiko kepatuhan?",
+    "options": ["Terlambat menyampaikan laporan SLIK kepada regulator sehingga Bank dikenakan sanksi", "Laporan disampaikan secara akurat kepada Regulator sesuai batas waktu yang ditentukan", "Pemberian kredit yang limitnya tidak melampaui BMPK", "Pengungkapan laporan keuangan Bank sesuai dengan ketentuan"],
+    "correct": 0
+  },
+  {
+    "question": "Berikut ini merupakan contoh tindakan yang TIDAK mencerminkan budaya kepatuhan?",
+    "options": ["Pemberian kredit melampaui BMPK", "Menggunakan parameter pengukuran risiko sesuai dengan regulasi yang berlaku", "Menyampaikan laporan kepada regulator tepat waktu", "Menjalankan komitmen bank terhadap regulator"],
+    "correct": 0
+  },
+  {
+    "question": "Sistem yang menjadi sarana informasi yang menyediakan peraturan perundang-undangan dan ketentuan, resume regulasi di Bank Mandiri :",
+    "options": ["Knowledge Management System (KMS)", "RACER", "Annual Compliance Plan", "Compliance Checklist"],
+    "correct": 0
+  },
+  {
+    "question": "Dalam prinsip Three Lines of Defense Unit Risk Management dan Unit Kepatuhan masuk ke dalam :",
+    "options": ["1st line of defense", "2nd line of defense", "3rd line of defense", "Benar Semua"],
+    "correct": 1
+  },
+  {
+    "question": "Berikut ini yang TIDAK termasuk dalam tugas dan tanggung jawab Direktur Kepatuhan adalah :",
+    "options": [
+      "Menetapkan strategi pemasaran dan strategi bisnis",
+      "Menetapkan sistem dan prosedur kepatuhan yang akan digunakan untuk menyusun ketentuan dan pedoman internal Bank",
+      "Memastikan bahwa seluruh kebijakan, ketentuan, sistem, dan prosedur, serta kegiatan usaha yang dilakukan Bank telah sesuai peraturan perundang-undangan yang berlaku.",
+      "Melakukan tindakan pencegahan agar kebijakan dan atau keputusan yang diambil Direksi Bank atau pimpinan Kantor Cabang Bank Asing tidak menyimpang dari ketentuan Bank Indonesia dan peraturan perundang-undangan yang berlaku (Pengujian Prinsip Kehati-hatian)."
+    ],
+    "correct": 0
+  },
+  {
+    "question": "Mendapat surat himbauan masuk dalam dampak Compliance Incident :",
+    "options": ["green zone", "yellow zone", "orange zone", "red zone"],
+    "correct": 0
+  },
+  {
+    "question": "Ketentuan yang mendasari pelaksanaan Fungsi Kepatuhan saat ini adalah :",
+    "options": ["POJK 46/POJK.03/2017", "PBI 1/6/1999", "PBI 13/2/2011", "POJK Nomor 55/POJK.03/2016"],
+    "correct": 0
+  },
+  {
+    "question": "Supervisi Pengelolaan Risiko Kepatuhan, monitor tindak lanjut Audit dan supervisi fungsi kepatuhan Mandiri Group masuk ke dalam Compliance Assurance Services :",
+    "options": ["Supervisory Services", "Review/Examination Services", "Consultation Services", "Liaison Officer"],
+    "correct": 0
+  },
+  {
+    "question": "Penyediaan, pengkajian, sosialisasi atas peraturan perundang-undangan dan ketentuan yang berlaku, masuk dalam Compliance Assurance Services :",
+    "options": ["Consultation Services", "Supervisory Services", "Review/Examination Services", "Regulatory Services"],
+    "correct": 3
+  },
+  {
+    "question": "Pelaksanaan Kepatuhan dalam setiap aktivitas merupakan tugas dan tanggung jawab dari:",
+    "options": ["Kepala Unit Kerja Yang Mensupervisi", "Direktur Kepatuhan dan SDM", "Pegawai Satuan Kerja Kepatuhan saja", "Seluruh pegawai"],
+    "correct": 3
+  },
+  {
+    "question": "Bentuk dari enforcement Reward and Punishment Budaya Kepatuhan adalah",
+    "options": ["Evaluasi Berkelanjutan", "Melakukan Perbaikan", "Sosialisasi Ulang", "Internal Control Score"],
+    "correct": 3
+  },
+  {
+    "question": "Manakah yang BUKAN merupakan penyebab terjadinya risiko kepatuhan:",
+    "options": ["Aktivitas atau produk Bank yang menyimpang dari ketentuan eksternal yang berlaku.", "Kurangnya pemahaman pejabat petugas Bank terhadap ketentuan eksternal yang berlaku", "Kegagalan dalam mengkomunikasikan perubahan ketentuan.", "Produk produk Bank yang tidak kompetitif"],
+    "correct": 3
+  },
+  {
+    "question": "Berikut adalah tahapan Manajemen Risiko Kepatuhan, kecuali :",
+    "options": ["Pengukuran", "Mitigasi dan Kontrol", "Identifikasi", "forecasting"],
+    "correct": 3
+  },
+  {
+    "question": "Faktor penyebab terjadinya compliance incident",
+    "options": ["Bencana Alam", "Perubahan Harga Saham", "Prinsip kehati-hatian", "Pengawasan Intern yang kurang memadai"],
+    "correct": 3
+  },
+  {
+    "question": "Yang termasuk dalam Organ Pengelola Kebijakan Bank Mandiri adalah:",
+    "options": ["Otoritas Jasa Keuangan", "Pemerintah", "Vendor", "Unit Penyusun Kebijakan"],
+    "correct": 3
+  },
+   {
+    "question": "Apabila di cabang terdapat transaksi nasabah yang menunjukkan adanya ciri-ciri mencurigakan maka harus dilaporkan ke :",
+    "options": ["Transaksi yang dilakukan sesuai dengan profil nasabah, namun dengan frekuensi tinggi", "Wealth Management Group", "PPATK", "Compliance Group"],
+    "correct": 3
+  },
+  {
+    "question": "Apabila nasabah saudara transaksi rekening tabungannya rata-rata Rp 500 juta per bulan, tiba-tiba menerima transfer sebesar Rp. 50 Miliar, maka saudara akan :",
+    "options": ["Mencari informasi mengenai transfer tersebut dan melaporkannya ke PPATK, apabila terindikasi mencurigakan", "Melaporkan transaksi tersebut ke Bank Indonesia dengan alasan transaksi tersebut merupakan transaksi yang mencurigakan", "Menolak transaksi nasabah", "Mencari informasi mengenai transfer tersebut dan melaporkannya ke Compliance Group apabila terindikasi mencurigai"],
+    "correct": 3
+  },
+  {
+    "question": "Apa yang harus dilakukan oleh CSR/CSO apabila terdapat calon nasabah yang memberikan data/informasi yang meragukan :",
+    "options": ["Menggali informasi lebih dalam dari nasabah dan menolak permohonan pembukaan rekening nasabah apabila informasi tetap meragukan", "Dapat langsung menolak permohonan pembukaan rekening karena calon nasabah tidak kooperatif", "Tetap memproses pembukaan rekening nasabah, lain kali akan ditanyakan kembali informasi yang meragukan apabila nasabah sudah dapat lebih terbuka", "Semua jawaban benar"],
+    "correct": 0
+  },
+  {
+    "question": "Apa yang dimaksud dengan integration dalam tahapan pencucian uang",
+    "options": ["Memisahkan dana dari hasil tindak pidana ke beberapa rekening untuk menyembunyikan atau menyamarkan asal usulnya", "Upaya menempatkan dana yang dihasilkan dari tindak pidana ke system keuangan", "Menggunakan dana hasil tindak pidana berupa pembelian real estate, otomotif ataupun jenis investasi lainnya", "Upaya menggabungkan dana hasil tindak pidana menjadi seolah-olah sah sehingga dapat langsung dipergunakan sebagai investasi atau kegiatan tindak pidana lainnya"],
+    "correct": 3
+  },
+  {
+    "question": "Apa yang harus dilakukan cabang, apabila menemukan bahwa profil nasabah saat ini sudah tidak sesuai dengan profil sebenarnya pada saat nasabah tersebut membuka rekening awal",
+    "options": ["Meminta kepada nasabah untuk mengkinikan profilnya dengan segera dan melakukan verifikasi terhadap informasi yang disampaikan tersebut", "Meminta nasabah untuk menutup rekening tersebut", "Melaporkan sebagai LTKM/STTR apabila menemukan bahwa si nasabah tidak memberikan informasi yang akurat dan/atau bahkan menolak untuk mengkinikan informasi", "Dibiarkan saja"],
+    "correct": 0
+  },
+  {
+    "question": "Apa yang dimaksud dengan Anti Tipping Off",
+    "options": ["Larangan membocorkan data nasabah kepada pihak kepolisian, KPK, BNN atau PPATK", "Larangan memberikan informasi data perbankan ke pihak luar bank", "Larangan membuka rahasia bank kepada kreditur maupun debitur", "Larangan bagi direksi, komisaris atau pegawai pihak pelapor (bank) untuk memberitahukan kepada nasabah atau pihak lain baik secara langsung maupun tidak langsung mengenai Laporan Transaksi Keuangan Mencurigakan yang sedang disusun atau telah disampaikan kepada PPATK"],
+    "correct": 3
+  },
+  {
+    "question": "Nasabah atas nama Fauzan diberikan kuasa oleh Ibu Kandungnya atas nama Lasmi untuk melakukan transaksi dengan Bank, termasuk pembukaan rekening atas nama Fauzan, maka yang menjadi Beneficial Owner dari rekening tersebut adalah:",
+    "options": ["Ibu dari Fauzan yaitu Lasmi", "Mertua dari Fauzan", "Adik Sepupu Fauzan", "Nasabah atas nama Fauzan"],
+    "correct": 0
+  },
+  {
+    "question": "Nasabah yang termasuk kategori beresiko tinggi adalah Penyelenggara Negara atau lebih dikenal dengan sebutan PEP (Politically Exposed Persons) yaitu pejabat negara yang menjalankan fungsi eksekutif, legislative atau yudikatif dan pejabat lain yang fungsi dan tugas pokoknya berkaitan dengan penyelenggaraan Negara. Dibawah ini yang termasuk nasabah PEP adalah sebagai berikut, kecuali :",
+    "options": ["Pedagang, Ibu Rumah Tangga, Pelajar, dan Mahasiswa (HIGH RISK)", "Pejabat MPR, DPR, Menteri, Gubernur, Hakim", "Direksi, Komisaris, dan Pejabat Struktural lain dalam BUMN atau BUMD", "Pegawai Supermarket (OPTIONAL)"],
+    "correct": 0
+  },
+  {
+    "question": "Dokumen apa saja yang wajib dipenuhi oleh WNA pada saat pembukaan di Bank :",
+    "options": ["Copy Paspor dan Copy KK", "Copy Paspor dan KIMS/KITAS", "Copy KK saja", "Copy Paspor Saja"],
+    "correct": 3
+  },
+  {
+    "question": "Di bawah ini yang bukan merupakan cara pemindahan dana berisiko tinggi dalam Tindak Pidana Pendanaan Terorisme adalah",
+    "options": ["New Payment Method", "Sistem Pembayaran Elektronik", "Sistem Pembayaran Tarik/setor tunai", "Sistem Pembayaran Online"],
+    "correct": 0
+  },
+  {
+    "question": "Di bawah ini yang bukan merupakan karakteristik tindak pidana Pencucian Uang adalah",
+    "options": ["Tindak Pidana yang berdiri sendiri", "Menggunakan serangkaian transaksi (a cycle of transaction)", "Menggunakan banyak orang (terorganisir), teknologi dan bantuan jasa professional", "Menggunakan perbankan atau Lembaga keuangan sebagai tempat akhir untuk melegitimate hasil kejahatan"],
+    "correct": 0
+  },
+  {
+    "question": "Di bawah ini yang merupakan modus dari Layering, kecuali",
+    "options": ["Memindahkan uang/harta hasil tindak pidana ke negara lain (PLACEMENT)", "Transfer dana secara elektronik", "Transfer dana melalui kegiatan perbankan lepas pantai", "Transaksi menggunakan perusahaan boneka"],
+    "correct": 0
+  },
+  {
+    "question": "Dibawah ini merupakan 5 pilar penerapan program APU PPT kecuali",
+    "options": ["SDM dan Pelatihan", "Pengawasan aktif Direksi dan Komisaris", "Pengendalian Eksterna", "Sistem Manajemen Informasi"],
+    "correct": 2
+  },
+  {
+    "question": "Direksi, Dewan Komisaris, dan pegawai dilarang memberitahukan kepada nasabah atau pihak lain, baik secara langsung maupun tidak langsung, dengan cara apapun mengenai laporan Transaksi Keuangan Mencurigakan yang sedang disusun atau disampaikan kepada PPATK. Hal ini terkait dengan ketentuan yang dimaksud :",
+    "options": ["No Tipping", "Anti Tipping Off", "Sipesat", "Suspicious Transaction Report"],
+    "correct": 1
+  },
+  {
+    "question": "Larangan memberikan keterangan pada nasabah dengan tujuan untuk mencegah pihak yang dilaporkan mengalihkan dananya dan/atau melarikan diri untuk menjaga efektivitas penyelidikan dan penyidikan TPPU",
+    "options": ["Larangan memberikan keterangan pada nasabah dengan tujuan untuk mencegah pihak yang dilaporkan mengalihkan dananya dan/atau melarikan diri untuk menjaga efektivitas penyelidikan dan penyidikan TPPU", "Larangan memberikan keterangan pada pihak yang berwenang dengan tujuan untuk mencegah pihak yang dilaporkan mengalihkan dananya dan/atau melarikan diri sehingga menjaga efektivitas penyelidikan dan penyidikan TPPU", "Larangan memberikan keterangan pada pihak yang tidak berhak dengan tujuan untuk mencegah pihak yang dilaporkan mengalihkan dananya dan/atau melarikan diri sehingga menjaga efektivitas penyelidikan dan penyidikan TPPU", "Larangan memberikan keterangan kepada pihak dengan tujuan untuk mencegah pihak yang dilaporkan mengalihkan dananya dan/atau melarikan diri untuk menjaga efektivitas penyelidikan dan penyidikan TPPU"],
+    "correct": 2
+  },
+  {
+    "question": "CSO/CSR berhak menolak pembukaan rekening nasabah dengan mempertimbangkan beberapa hal, antara lain :",
+    "options": ["Calon nasabah menolak untuk mengisi formulir pembukaan rekening dengan lengkap dan benar", "Calon nasabah tidak menyampaikan dokumen pendukung yang dipersyaratkan secara lengkap", "Semua jawaban benar", "Hasil review menunjukkan adanya hal-hal yang mencurigakan"],
+    "correct": 3
+  },
+  {
+    "question": "Keberhasilan penerapan Prinsip Mengenal Nasabah adalah terletak pada kegiatan awal Calon nasabah. Tanggung jawab utama Anda sebagai CSO/CSR pada tahap ini adalah:",
+    "options": ["Melayani nasabah dengan sebaik mungkin sehingga tidak ada keluhan", "Menggali selengkap mungkin dan seakurat mungkin informasi yang telah diisi calon nasabah dalam formulir pembukaan rekening", "Meminta nasabah untuk bertransaksi di tempat lain jika formulir aplikasi pembukaan tidak lengkap diisi oleh nasabah", "Menerima formulir aplikasi meskipun tidak diisi lengkap"],
+    "correct": 3
+  },
+  {
+    "question": "Kelompok nasabah yang paling berisiko memicu timbulnya pencucian uang disebut dengan istilah :",
+    "options": ["High Risk Countries", "High Risk Business", "High Risk Product", "High Risk Customer"],
+    "correct": 3
+  },
+  {
+    "question": "Kebijakan penyampaian laporan yang dilakukan Bank kepada Regulator dalam pencegahan dan pemberantasan tindak pidana pencucian uang, diatur dalam Kebijakan APU PPT. Jenis pelaporan yang dipersyaratkan regulator salah satunya adalah:",
+    "options": ["Laporan Transaksi Keuangan Tunai (LTKT)", "Laporan Neraca dan Laba Rugi Bank", "Laporan Transaksi Keuangan Bank (LTKB)", "Laporan Daftar Hutang Nasabah (LDHN)"],
+    "correct": 0
+  },
+  {
+    "question": "Ketentuan mengenai Pencegahan dan Pemberantasan Tindak Pidana Pencucian Uang (TPPU) diatur pada :",
+    "options": ["UU No. 9 Tahun 2013", "UU No. 9 Tahun 2010", "UU No. 8 Tahun 2013", "UU No. 8 Tahun 2010"],
+    "correct": 3
+  },
+  {
+    "question": "Kewenangan memutus pembukaan rekening untuk calon nasabah yang termasuk dalam kategori Area Beresiko Tinggi adalah :",
+    "options": ["Semua jawaban benar", "Kepala Cabang / Kepala Unit Kerja / Pejabat yang ditunjuk", "Kepala SKK di Kantor Pusat", "Kepala UKK APU dan PPT"],
+    "correct": 1
+  },
+  {
+    "question": "Ketentuan mengenai Tindak Pidana Pendanaan Terorisme diatur dalam :",
+    "options": ["UU No. 9 Tahun 2010", "UU No. 8 Tahun 2010", "UU No. 8 Tahun 2013", "UU No. 9 Tahun 2013"],
+    "correct": 3
+  },
+  {
+    "question": "Berapa lama proses KYE diterapkan terhadap mantan karyawan sejak yang bersangkutan tidak lagi menjadi karyawan Bank Mandiri :",
+    "options": ["2 Tahun", "4 Tahun", "3 Tahun", "1 Tahun"],
+    "correct": 3
+  },
+  {
+    "question": "Berapa tahapan yang umumnya ada dalam suatu proses money laundering/pencucian uang :",
+    "options": ["2 tahapan", "4 tahapan", "3 tahapan (PLI)", "5 tahapan"],
+    "correct": 2
+  },
+  {
+    "question": "Berikut ini manakah pernyataan yang paling benar mengenai Laporan Transaksi Luar Negeri (LTKL), yakni :",
+    "options": ["Laporan Transaksi yang menyangkut penerimaan dana dari/ke Luar Negeri", "Laporan transaksi pengiriman dana dari/ke Luar Negeri", "Laporan Transaksi penerimaan dana dari Luar Negeri ataupun pengiriman dana ke Luar Negeri", "Laporan transaksi penerimaan dana hanya ke Dalam Negeri"],
+    "correct": 2
+  },
+  {
+    "question": "Berikut ini sejumlah produk dan jasa yang beresiko tinggi dan perlu mendapatkan perhatian (Awareness) bagi unit kerja pemilik produk dan jasa, kecuali :",
+    "options": ["Pembukaan Kredit dan Pendanaan (termasuk Credit Card)", "Transfer Dana", "Electronic Banking (internet, SMS dan Phone Banking)", "Mandiri Debit"],
+    "correct": 3
+  },
+  {
+    "question": "Berikut ini merupakan tahapan yang lazim digunakan pelaku tindak pidana proses Pencucian Uang adalah",
+    "options": ["Placement – Layering – Integration", "Layering – Placement – Integration", "Integration – Layering – Placement", "Placement – Integration – Layering"],
+    "correct": 0
+  },
+  {
+    "question": "Beberapa indikator transaksi mencurigakan terkait pendanaan terorisme adalah sebagai berikut, kecuali :",
+    "options": ["Profesi penggunaan jasa umumnya sebagai wiraswasta, pedagang, dan pekerjaan informal lainnya, rata-rata dengan usia muda (19 - 25 tahun)", "Pelaku selalu sering datang ke Bank", "Kepemilikan lebih dari satu rekening multiple account dengan saldo minimal", "Rekening Joint Account dengan hubungan bukan keluarga atau bisnis"],
+    "correct": 1
+  },
+  {
+    "question": "Berikut ini profil yang mempunyai risiko tinggi atas kegiatan pidana pendanaan terorisme adalah, kecuali",
+    "options": ["Yayasan", "Non Profit Organization (NPO)", "Pelajar/Mahasiswa", "Tokoh Masyarakat"],
+    "correct": 3
+  },
+  {
+    "question": "Berdasarkan hasil riset National Risk Assessment (NRA) dari Pusat Pelaporan Analisis Transaksi Keuangan (PPATK) dari 26 tindak pidana asal pencucian uang, 3 tindak pidana terbesar yaitu :",
+    "options": ["Korupsi, Perbankan, Kehutanan", "Narkotika, Korupsi, Perpajakan", "Perbankan, Pasar Modal, Perpajakan", "Narkotika, Kehutanan, Pasar Modal"],
+    "correct": 1
+  },
+  {
+    "question": "Berikut ini adalah pilar penerapan APU PPT yang efektif, kecuali :",
+    "options": ["Pengawasan Aktif Direksi dan Dewan Komisaris", "Sistem Informasi Manajemen", "Kebijakan dan Prosedur", "Face to race meeting dengan calon nasabah"],
+    "correct": 3
+  },
+  {
+    "question": "Organisasi Internasional yang memberikan standarisasi penerapan program APU PPT dengan memberikan rekomendasi penerapan APU PPT yang wajib diterapkan adalah",
+    "options": ["FATF", "OFAC", "UN", "INTRAC"],
+    "correct": 0
+  },
+  {
+    "question": "Menjelang tutup kas, seorang nasabah datang menyetor uang tunai dalam jumlah besar, apa yang akan saudara lakukan terhadap nasabah tersebut :",
+    "options": ["Tidak melayani dan mempersilakan nasabah untuk datang esok hari", "Menanyakan asal usul dana dan meyakini transaksi tersebut sesuai profil/karakteristik transaksi nasabah, jika nasabah tidak kooperatif transaksi ditolak", "Semua jawaban salah", "Langsung melaksanakan transaksi nasabah"],
+    "correct": 3
+  },
+  {
+    "question": "Manakah menurut Anda dapat dikategorikan sebagai Laporan Transaksi Keuangan Mencurigakan (LTKM)",
+    "options": ["Seluruhnya dapat dikategorikan sebagai transaksi keuangan mencurigakan", "Seorang pengusaha mencairkan cek Rp. 750 juta yang digunakna untuk pembelian mesin", "Gubernur menarik tunai dari rekening penampungan pembayaran gajinya", "Juru bayar PEMDA mencairkan cek Pemerintah sebesar Rp. 100 juta dan dimasukkan ke rekening pribadi"],
+    "correct": 3
+  },
+  {
+    "question": "Enhanced Due Diligence (EDD) dilakukan terhadap nasabah dengan kategori :",
+    "options": ["Moderate Risk Customer", "Medium Risk Customer", "Low Risk Customer", "High Risk Customer"],
+    "correct": 3
+  },
+  {
+    "question": "Hasil yang diperoleh dari Risk Based Approach dalam pembukaan rekening nasabah, kecuali :",
+    "options": ["Medium risk customer", "Low risk customer", "High risk customer", "Credit risk customer"],
+    "correct": 3
+  },
+  {
+    "question": "Bank sangat rentan digunakan sebagai sarana pencucian uang, hal ini disebabkan karena :",
+    "options": ["Bank Menawarkan teknologi jasa dan instrument transaksi keuangan yang mudah dan cepat", "Bank menggunakan ketentuan penerimaan nasabah dengan sangat ketat", "Bank meminta informasi dan data calon nasabah dengan lengkap", "Bank tidak memiliki produk yang menarik untuk digunakan berinvestasi"],
+    "correct": 0
+  },
+  {
+    "question": "Berikut ini adalah sumber pendanaan dari kegiatan Tindak Pidana Pendanaan Terorisme yaitu",
+    "options": ["Sumbangan dari kelompok etnis tertentu", "Kegiatan menabung", "Negara komunis dan liberalis", "Sumbangan dari kelompok keagamaan"],
+    "correct": 3
+  },
+  {
+    "question": "Salah satu profil nasabah yang termasuk kategori Politically Exposed Persons (PEPs) adalah :",
+    "options": [
+      "Pedagang",
+      "Notaris",
+      "Akuntan",
+      "Anggota DPR"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Seseorang yang menggunakan fasilitas Bank namun dia tidak memiliki rekening bank disebut :",
+    "options": [
+      "Politically Exposed Persons",
+      "High Risk Customer",
+      "Beneficiary Owner",
+      "Walk In Customer"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Seluruh pegawai wajib mengikuti pelatihan APU PPT minimal sebanyak ..... dalam masa kerja",
+    "options": [
+      "3 Kali",
+      "2 Kali",
+      "1 Kali",
+      "4 Kali"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Seorang pelaku tindak pidana pencucian uang memecah transaksi ke dalam jumlah yang lebih kecil. Hal ini merupakan salah satu modus dari :",
+    "options": [
+      "Placement",
+      "Replacement",
+      "Integration",
+      "Layering"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Seorang CS memberikan petunjuk kepada Nasabah untuk memecah transaksi agar tidak terlapordalam Laporan Transaksi Keuangan Tunai (LTKT), hal ini dilakukan untuk membantu Nasabah yang seorang Bupati dari hasil korupsi yang dilakukannya. Berdasarkan kasus di atas, CS tersebut termasuk",
+    "options": [
+      "Pelaku Pasif",
+      "Pelaku Aktif",
+      "Pelaku Campuran",
+      "Pelaku Agresif"
+    ],
+    "correct": 0
+  },
+  {
+    "question": "Salah satu contoh penerapan 5 Pilar dalam rangka pengawasan aktif dari Direksi dan Komisaris adalah",
+    "options": [
+      "Meyakini seluruh Unit Bisnis telah mengerti, memahami dan mematuhi peraturan perundang-undangan yang berlaku terkait penerapan Program APU PPT",
+      "Memastikan bahwa Bank memiliki kebijakan dan prosedur penerapan program APU PPT secara tertulis dan komprehensif",
+      "Meyakini kebijakan dan program APU PPT telah sejalan dengan perubahan dan perkembangan produk, jasa dan teknologi Bank",
+      "Memantau dan mengevaluasi pelaksanaan program APU PPT pada Bank"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "Setiap orang yang menerima atau menguasai penempatan, pentransferan, pembayaran, hibah, sumbangan, penitipan, penukaran, atau menggunakan Harta Kekayaan yang diketahuinya atau patut diduganya merupakan hasil tindak pidana merupakan tindak pidana pencucian uang",
+    "options": [
+      "TPPU Campuran",
+      "TPPU Agresif",
+      "TPPU Aktif",
+      "TPPU Pasif"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Siapakah yang dilarang memberitahukan kepada Nasabah atau pihak lain mengenai Laporan Transaksi Keuangan Mencurigakan (LTKM) yang sedang disusun atau telah disampaikan kepada PPATK?",
+    "options": [
+      "Pegawai Bank Kantor Pusat",
+      "Unit Kerja terkait Pelaporan LTKM",
+      "Direksi, Komisaris dan Pegawai Bank",
+      "Direksi dan Pegawai Bank"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Pada tahapan Integration proses money laundering dilakukan dengan menggunakan beberapa metode, salah satunya adalah :",
+    "options": [
+      "Pembelian real estate",
+      "Membangun bisnis yang tidak jelas",
+      "Mencampurkan dana illegal dengan dana legal",
+      "Semua jawaban salah"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Pada tahapan layering proses money laundering dilakukan dengan menggunakan beberapa metode, salah satunya adalah :",
+    "options": [
+      "Menyelundupkan fisik uang",
+      "Semua jawaban benar",
+      "Semua jawaban salah",
+      "Multiple Transfer"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Pelaksana Tugas APU PPT di Cabang adalah berikut, Kecuali :",
+    "options": [
+      "Verifikator",
+      "CSO",
+      "Kepala Cabang",
+      "Area Manager"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Pembukaan rekening nasabah berisiko tinggi (high risk customer) wajib dilaporkan kepada Compliance Group paling lambat :",
+    "options": [
+      "7 Hari Kerja",
+      "14 Hari Kerja",
+      "3 Hari Kerja",
+      "30 Hari Kerja"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Penerapan Enhanced Due Diligence terhadap nasabah high risk customer dilakukan dengan cara :",
+    "options": [
+      "Persetujuan pembukaan rekening oleh Customer Service Officer",
+      "Meminta nasabah membuat surat pernyataan tentang asal-usul dana",
+      "Semua jawaban benar",
+      "Meminta informasi data nasabah secara lengkap, benar dan up to date"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Pilih salah satu dari 3 pernyataan dibawah ini yan termasuk red flag (indikasi transaksi mencurigakan) berikut :",
+    "options": [
+      "Transaksi yang dilakukan dengan menggunakan beberapa rekening atas nama individu yang berbeda-beda untuk destinasi/tujuan tertentu",
+      "Transaksi yang dilakukan sesuai dengan profil nasabah, namun dengan frekuensi tinggi",
+      "Semua jawaban salah",
+      "Semua jawaban benar"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Pihak yang menggunakan jasa Bank namun tidak memiliki rekening di Bank, tidak termasuk pihak yang mendapatkan perintah atau penugasan dari nasabah untuk melakukan transaksi atau kepentingan nasabah, disebut dengan :",
+    "options": [
+      "Walk In Customer (WIC)",
+      "Politically Exposed Person (PEP)",
+      "High Risk Customer (HRC)",
+      "Customer Identification File (CIF)"
+    ],
+    "correct": 0
+  },
+  {
+    "question": "Pendanaan terorisme pada dasarnya merupakan tindak pidana yang berbeda dari tindak pidana pencucian uang, namun demikian keduanya mengandung kesamaan, yaitu :",
+    "options": [
+      "Bertujuan untuk menyamarkan asal-usul harta kekayaan",
+      "Sumber harta kekayaan berasal dari hasil tindak pidana ataupun dari harta kekayaan yang diperoleh secara sah",
+      "Pendanaan terorisme adalah penggunaan harta kekayaan secara langsung atau tidak langsung untuk kegiatan terorisme",
+      "Menggunakan jasa keuangan sebagai sarana untuk melakukan suatu tindak pidana"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Pengelolaan High Risk Customer (HRC) yang benar adalah di bawah ini, kecuali :",
+    "options": [
+      "Bank harus dilaporkan cabang paling lambat 3 hari sejak pembukaan rekening dan dilaksanakan secara berkesinambungan",
+      "Pembukaan rekening HRC harus disetujui oleh kepala cabang",
+      "HRC dilaporkan ke Compliance Group dengan melampirkan Surat dan Lampiran Daftar HRC sesuai ketentuan ke alamat email Compliance APU-PPT dan tembusan ke AMLO region",
+      "APR (aplikasi Pembukaan Rekening) nasabah High Risk ditandatangani oleh CSO"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Persamaan dari Tindak Pidana Pencucian Uang (TPPU) dengan Tindak Pidana Pendanaan Terorisme (TPPT) adalah menggunakan bank sebagai sarana tindak pidana. Di bawah ini perbedaan dari TPPU dengan TPPT yang tepat adalah :",
+    "options": [
+      "TPPU biasanya menggunakan jumlah dana besar, sedangkan TPPT mengunakan jumlah dana yang sedikit",
+      "Sumber dana dari TPPU berasal dari kegiatan legal/illegal, sedangkan TPPT berasal dari kegatan legal",
+      "TPPU melibatkan dana dengan jumlah yang kecil, sedangkan TPPT dengan jumlah yang besar",
+      "Sumber dana dari TPPU berasal dari kegiatan legal, sedangkan TPPT dapat berasal dari kegiatan legal/illegal"
+    ],
+    "correct": 0
+  },
+  {
+    "question": "Pasal 2 UU Pencegahan dan Pemberantasan TPPU menyatakan bahwa hasil tindak pidana adalah harta kekayaan yang diperoleh dari, yaitu :",
+    "options": [
+      "Tindak pidana lain yang diancam dengan pidana penjara 7 (tujuh) tahun atau lebih",
+      "Tindak pidana lain yang diancam dengan pidana penjara 5 (lima) tahun atau lebih",
+      "Tindak pidana lain yang diancam dengan pidana penjara 4 (enam) tahun atau lebih",
+      "Tindak pidana lain yang diancam dengan pidana penjara 6 (enam) tahun atau lebih"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Pada tanggal 31 Maret 2017, Otoritas Jasa Keuangan mengeluarkan peraturan baru terkait dengan Penerapan Program Anti Pencucian Uang dan Pencegahan Pendanaan Terorisme di sektor Jasa keuangan, yaitu",
+    "options": [
+      "POJK No. 12/POJK.01/2017",
+      "POJK No. 11/POJK.02/2017",
+      "POJK No. 11/POJK.02/2017",
+      "POJK No. 21/POJK.01/2017"
+    ],
+    "correct": 0
+  },
+  {
+    "question": "Pelanggaran terhadap Anti Tipping Off dikenakan sanksi pidana sebagai berikut",
+    "options": [
+      "Pidana penjara minimal 5 tahun atau denda pidana paling banyak sebesar Rp. 10M",
+      "Pidana penjara maksimal 5 tahun dan/atau pidana denda paling banyak sebesar Rp. 1M",
+      "Pidana penjara maksimal 5 tahun dan denda pidana paling banyak sebesar Rp. 1M",
+      "Pidana penjara minimal 5 tahun dan pidana denda paling banyak sebesar Rp. 10M"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Pegawai Bank yang menerima atau menguasai penempatan, pentransferan, pembayaran, hibah, sumbangan, penitipan, penukaran, atau menggunakan Harta kekayaan yang diketahuinya atau patut diduganya merupakan hasil TPPU akan dikenakan sanksi berupa:",
+    "options": [
+      "Pidana penjara paling lama 5 tahun atau denda paling banyak Rp. 1M",
+      "Pidana penjara paling lama 5 tahun atau denda paling banyak Rp. 1M",
+      "Pidana penjara paling sedikit 5 tahun atau denda paling banyak Rp. 10M",
+      "Pidana penjara paling lama 5 tahun dan denda paling banyak Rp. 10M"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "Pembekuan dana atau asset lainnya jika terdapat perintah blokir dari APGAKUM atau PPATK sesuai dengan UU perihal Pencegahan Pendanaan Terorisme dikenal dengan istilah :",
+    "options": [
+      "Freeze In Delay",
+      "Freeze Without Delay",
+      "Freeze with In Delay",
+      "Freeze With Delay"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "Pencucian uang adalah",
+    "options": [
+      "Upaya untuk menyembunyikan/menyamarkan asal-usul uang yang dihasilkan dari suatu tindakan kejahatan, sehingga tampak seolah-olah berasal dari suatu tindakan yang sah",
+      "Upaya untuk menyembunyikan/menyamarkan asal-usul keluarga yang melakukan suatu tindakan kejahatan",
+      "Penggunaan harta secara langsung atau tidak langsung untuk kegiatan perdagangan narkotika",
+      "Penggunaan harta kekayaan secara langsung atau tidak langsung untuk kegiatan terorisme"
+    ],
+    "correct": 0
+  },
+  {
+    "question": "Salah satu faktor terjadinya pencucian uang adalah ketatnya peraturan Bank terkait kerahasiaan atas nasabah & data rekeningnya yang menyebabkan para pemilik dana gelap sulit dilacak adalah :",
+    "options": [
+      "Knor Your Customer yang ketat",
+      "Teknologi",
+      "Bank Secrecy",
+      "Bukan termasuk 3 diatas"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Selain Kartu Tanda Penduduk, jenis dokumen apa yang wajib disampaikan oleh Calon Nasabah Perorangan apabila ingin membuka rekening di Bank yaitu",
+    "options": [
+      "Akta Lahir",
+      "Kartu Keluarga",
+      "Surat Ijin Mengemudi",
+      "Nomor Pokok Wajib Pajak"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Salah satu modus Integration dalam tindak pidana pencucian uang adalah, kecuali",
+    "options": [
+      "Berinvestasi pada kegiatan usaha",
+      "Pembiayaan perusahaan",
+      "Penggunaan simpanan dana sebagai agunan jaminan, pembelian produk investasi an kerabat/keluarga",
+      "Jual beli asset/properti"
+    ],
+    "correct": 2
+  },
+  {
+    "question": "Rekening istri / anak / kolega menerima hasil dari tindak pidana pencucian uang. Istri / anak / kolega termasuk pelaku :",
+    "options": [
+      "TPPU Campuran",
+      "TPPU Pasif",
+      "TPPU Aktif",
+      "TPPU Biasa"
+    ],
+    "correct": 1
+  },
+  {
+    "question": "Verifikasi terhadap data/identitas nasabah perorangan dalam \"kondisi tertentu\", paling lambat dilakukan dalam waktu :",
+    "options": [
+      "60 Hari Kerja",
+      "30 Hari Kerja",
+      "90 Hari Kerja",
+      "14 Hari Kerja"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Yang bukan termasuk laporan terkait dengan penerapan APU PPT oleh Cabang adalah :",
+    "options": [
+      "Laporan pembukaan rekening high risk customer",
+      "Laporan transaksi keuangan tunai",
+      "Semua jawaban salah",
+      "Laporan Transaksi keuangan mencurigakan"
+    ],
+    "correct": 3
+  },
+  {
+    "question": "Yang tidak termasuk area berisiko tinggi dalam APU PPT adalah :",
+    "options": [
+      "High risk fund",
+      "High risk business",
+      "High risk customer",
+      "High risk product"
+    ],
+    "correct": 3
+  }
+]
+        window.onload = function() {
+            const questionsContainer = document.getElementById('questions-container');
+            const totalQuestions = quizData.length;
+            
+            function renderAllQuestions() {
+                questionsContainer.innerHTML = ''; 
+                
+                for (let i = 0; i < totalQuestions; i++) {
+                    const questionData = quizData[i];
+                    let optionsHTML = '';
+                    
+                    questionData.options.forEach((option, j) => {
+                        const isChecked = (j === questionData.correct) ? 'checked' : '';
+                        optionsHTML += `
+                            <div class="option">
+                                <input type="radio" id="q${i}o${j}" name="jawaban_q${i}" ${isChecked} disabled>
+                                <label for="q${i}o${j}">${option}</label>
+                            </div>
+                        `;
+                    });
+
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'question-item';
+                    questionElement.innerHTML = `
+                        <p class="question-meta">Question ${i + 1} of ${totalQuestions}</p>
+                        <p class="question-text">${questionData.question}</p>
+                        <div class="options-container">${optionsHTML}</div>
+                        <div class="mark-follow-up">
+                            <input type="checkbox" id="markFollowUp${i}">
+                            <label for="markFollowUp${i}">Mark for follow up</label>
+                        </div>
+                    `;
+                    questionsContainer.appendChild(questionElement);
+                }
+            }
+
+            let durationInSeconds = 30 * 60; // 30 menit
+            const timerElement = document.getElementById('timer');
+
+            const timerInterval = setInterval(() => {
+                durationInSeconds--;
+                let minutes = parseInt(durationInSeconds / 60, 10);
+                let seconds = parseInt(durationInSeconds % 60, 10);
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+                timerElement.textContent = minutes + ":" + seconds;
+
+                if (durationInSeconds < 0) {
+                    clearInterval(timerInterval);
+                    timerElement.textContent = "WAKTU HABIS";
+                }
+            }, 1000);
+
+            renderAllQuestions();
+        };
+    </script>
+
+</body>
+</html>
